@@ -43,7 +43,6 @@
 ├── Infrastructure            # Configuration and extensions
 ├── Dockerfile                # Docker configuration
 ├── docker-compose.yml        # Docker Compose setup
-├── k8s                       # Kubernetes manifest files
 └── README.md                 # Project documentation
 ```
 
