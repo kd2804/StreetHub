@@ -1,7 +1,7 @@
 
 # StreetHub
 
-**StreetHub** is a .NET Core REST API designed to manage and modify street-related data, including street names, geometries, and vehicle capacities. It utilizes **PostgreSQL** with **PostGIS** for spatial data storage and **Entity Framework Core** as the ORM. The project is containerized with **Docker** and includes configurations for **Kubernetes** deployment.
+**StreetHub** is a .NET Core REST API designed to manage and modify street-related data, including street names, geometries, and vehicle capacities. It utilizes **PostgreSQL** with **PostGIS** for spatial data storage and **Entity Framework Core** as the ORM. The project is containerized with **Docker**.
 
 ---
 
@@ -24,7 +24,7 @@
 - **Geometry Manipulation**: Add points to street geometry.
 - **Race Condition Prevention**: Handle concurrent modifications to ensure data consistency.
 - **Feature Flag**: Choose between in-database and backend-based geometry processing.
-- **Containerization**: Docker and Docker Compose for local setup, Kubernetes for production deployment.
+- **Containerization**: Docker and Docker Compose for local setup.
 
 ---
 
@@ -53,7 +53,6 @@
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [PostgreSQL](https://www.postgresql.org/download/) with **PostGIS extension**
 - [Docker](https://www.docker.com/products/docker-desktop)
-- [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/)
 
 ---
 
@@ -133,14 +132,6 @@ To run the project in Docker, use:
 docker-compose up
 ```
 
-### Kubernetes Deployment
-
-For Kubernetes deployment, apply the manifest files:
-
-```bash
-kubectl apply -f k8s/deployment.yml
-```
-
 ---
 
 ## API Usage
@@ -210,7 +201,7 @@ GET /api/streets/1
 - **Entity Framework Core**: ORM for data access
 - **PostgreSQL + PostGIS**: Database for street data with spatial data support
 - **NetTopologySuite**: Spatial data types and operations
-- **Docker / Kubernetes**: Containerization and orchestration
+- **Docker**: Containerization and orchestration
 
 ---
 
