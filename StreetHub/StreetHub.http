@@ -1,0 +1,6 @@
+@StreetHub_HostAddress = http://localhost:5039
+
+GET {{StreetHub_HostAddress}}/api/street
+Accept: application/json
+
+###
