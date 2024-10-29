@@ -1,0 +1,35 @@
+services:
+  # Define the StreetHub service
+  streethub:
+    container_name: 'streethub'
+    image: streethub:latest      
+    build:
+      context: .              
+      dockerfile: StreetHub/Dockerfile
+    ports:
+      - "8080:8080"              
+    networks:
+      - mynetwork               
+    depends_on:
+      - postgres                 
+    environment:
+      RUNNING_IN_DOCKER: "true"  
+      DATABASE_CONNECTION_STRING: "Host=postgres;Database=streetdb;Password=yourpassword;Port=5432;" 
+
+  # Define the PostgreSQL service with PostGIS support
+  postgres:
+    container_name: 'postgres'    
+    image: postgis/postgis:latest
+    environment:
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: streetdb           
+    ports:
+      - "5432:5432"                    
+    networks:
+      - mynetwork                       
+    command: ["postgres", "-c", "listen_addresses=*"] 
+      
+# Define custom networks
+networks:
+  mynetwork:
+    driver: bridge
