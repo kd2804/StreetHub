@@ -51,7 +51,7 @@
 
 ## Prerequisites
 
-- [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [PostgreSQL](https://www.postgresql.org/download/) with **PostGIS extension**
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Kubernetes CLI (kubectl)](https://kubernetes.io/docs/tasks/tools/)
@@ -74,17 +74,33 @@
    - **PostgreSQL connection string**:
      ```json
      "ConnectionStrings": {
-         "DefaultConnection": "Host=localhost;Port=5432;Database=streetdb;Username=yourusername;Password=yourpassword"
+         "DefaultConnection": "Host=postgres;Port=5432;Database=streetdb;Username=yourusername;Password=yourpassword"
      }
      ```
 
-3. **Run Database Migrations**
+3. **Database Setup and Migrations**
 
-   Use the Entity Framework CLI to create the required database tables.
+   Use Entity Framework Core to create and update the database schema.
 
-   ```bash
-   dotnet ef database update
-   ```
+   - **Install EF CLI (if needed)**:
+     ```bash
+     dotnet tool install --global dotnet-ef
+     ```
+
+   - **Create Initial Migration**:
+     ```bash
+     dotnet ef migrations add InitialCreate -p StreetHub -s StreetHub
+     ```
+
+   - **Apply Migrations**:
+     ```bash
+     dotnet ef database update -p StreetHub -s StreetHub
+     ```
+
+   - **Adding New Migrations**: If you make changes to models later, use:
+     ```bash
+     dotnet ef migrations add <MigrationName> -p StreetHub -s StreetHub
+     ```
 
 4. **Docker Setup**
 
@@ -108,7 +124,7 @@
 
 2. **Access the API**
 
-   Open your browser or use Postman to access `http://localhost:5000/api/streets`.
+   Open your browser or use Postman to access `http://localhost:8000/api/streets`.
 
 ### Using Docker
 
@@ -135,6 +151,7 @@ kubectl apply -f k8s/deployment.yml
 - **POST** `/api/streets` - Create a new street.
 - **DELETE** `/api/streets/{id}` - Delete a street by ID.
 - **POST** `/api/streets/{id}/addPoint` - Add a point to a street geometry.
+- **GET** `/api/streets/{id}` - Retrieve a street by ID.
 
 ### Example Requests
 
@@ -166,11 +183,31 @@ Content-Type: application/json
 }
 ```
 
+#### Get a Street by ID
+
+```http
+GET /api/streets/1
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "name": "Main Street",
+  "geometry": {
+    "type": "LineString",
+    "coordinates": [[0, 0], [1, 1], [2, 2]]
+  },
+  "capacity": 50
+}
+```
+
 ---
 
 ## Technology Stack
 
-- **.NET Core 6**: Application framework
+- **.NET Core 8**: Application framework
 - **Entity Framework Core**: ORM for data access
 - **PostgreSQL + PostGIS**: Database for street data with spatial data support
 - **NetTopologySuite**: Spatial data types and operations
